@@ -1,47 +1,61 @@
-# Open-Parsec-for-Linux
+# Open Parsec for Linux
 
-A Linux host compatible with Parsec clients, based on [Lowlat](https://github.com/nomi-san/lowlat).
-The native application follows the layout of [OpenParsec for iPadOS](https://github.com/hugeBlack/OpenParsec): host cards, a top toolbar, bottom navigation and settings behind the gear button.
+An experimental Linux host for Parsec clients, based on [Lowlat](https://github.com/nomi-san/lowlat). Includes a native GTK control panel inspired by [OpenParsec for iPadOS](https://github.com/hugeBlack/OpenParsec).
 
-## Features
+## What it does
 
-- Linux hosting with DRM/Vulkan capture and hardware H.264/HEVC encoding.
-- Local computer card and live host status.
-- Connected client list and session disconnection.
-- Host name, codec, encoder, frame rate, bitrate and default display settings.
-- GNOME panel indicator that remains active when the window is closed.
-- GNOME Mutter resolution switching and remembered DING desktop file positions.
+- Capture the desktop through DRM/Vulkan and encode with hardware H.264 or HEVC.
+- Show the local host, live status and connected clients; disconnect sessions.
+- Configure host name, encoder, codec, frame rate, bitrate and display settings.
+- Keep a GNOME panel indicator available when the window closes.
+- Switch resolution through GNOME Mutter and remember DING desktop file positions.
 
-The host uses Parsec services. Other computers, friends and outgoing connections remain available in the official Parsec client. No mock computers are displayed. PipeWire capture, AV1 and special DING icons are not supported in this version.
+This version uses Parsec services and requires a Parsec account. Use the official client for outgoing connections, friends and other computers. PipeWire capture, AV1 and special DING icons are not supported.
 
-## Quick install
+## Install
 
-Download the Linux x86_64 archive from this repository's Releases page, extract it and run:
+The guided installer targets **Ubuntu 24.04–26.x on x86_64**, with a graphical session and systemd. GPU drivers must already provide Vulkan and a supported hardware encoder. This is experimental: the installer accepts these Ubuntu versions, but that does not establish compatibility with every GPU or desktop combination.
+
+1. Download the [0.1.0 archive](https://github.com/cottarts/Open-Parsec-for-Linux/raw/refs/heads/main/open-parsec-0.1.0-linux-x86_64.tar.gz) and [SHA256SUMS](SHA256SUMS) into the same directory.
+2. Verify, extract and check the platform:
 
 ```sh
-./install.sh
+sha256sum -c SHA256SUMS
+tar -xzf open-parsec-0.1.0-linux-x86_64.tar.gz
+cd open-parsec-0.1.0
+./install.sh --check
 ```
 
-The guided installer installs dependencies, asks you to sign in to Parsec, and enables automatic hosting plus a background panel indicator. Release archives include binaries, so no compiler is needed. The automatic installer targets Ubuntu 24.04–26.x; it is experimental and does not change GPU drivers or desktop login settings.
+3. From a terminal in your desktop session, run `./install.sh` as your normal user. It asks for sudo when needed, installs dependencies, guides Parsec sign-in and enables the host service and session interface. Binaries are included; a Rust compiler is not required for this archive.
 
-For verification, source builds, troubleshooting and removal, see [Installation](docs/INSTALL.md).
+The checksum detects changes or download corruption; it is not an independent proof of publisher identity. The installer does not replace GPU drivers or enable desktop auto-login.
 
-Administrative actions use a sudo terminal. Credentials stay outside the repository. Closing the window keeps the indicator active; quitting the interface leaves the host running.
+See [installation and troubleshooting](docs/INSTALL.md) before installation, and [security guidance](SECURITY.md) before sharing logs.
 
-## Development
+## Use and develop
+
+Closing the interface keeps its indicator active. Quitting the interface leaves the host service running. Use the launcher or the indicator's **Show Open Parsec** action to reopen the window.
+
+**This repository distributes an archive.** The application source, bundled binaries and upstream documentation are inside it; cloning this repository alone does not create an application source checkout. After extracting, run these commands from `open-parsec-0.1.0`:
 
 ```sh
 python3 apps/control/desktop_app.py
 python3 -m unittest discover -s tests/openparsec
 ```
 
-Launch the optional web panel with `./open-parsec web --port 47990`. Local access requires the PIN displayed in the terminal. Machine-specific configurations, built binaries and credentials are excluded by `.gitignore`.
+For a panel-only launch, add `--background`. The optional local web panel starts with `./open-parsec web --port 47990` and requires its terminal PIN. Read the archive's `README.lowlat.md` and `docs/` for architecture and source-build details.
 
-## Licenses and attribution
+Repository packaging checks, requiring only Python 3:
 
-The host and Linux code are MIT-licensed; see [LICENSE](LICENSE) and [UPSTREAM.md](UPSTREAM.md).
-The unchanged OpenParsec logo comes from the iPadOS project under GPL-3.0; see [its notice and license](apps/control/assets/NOTICE.md).
-The GTK interface independently implements a similar layout; it contains no Swift source.
-This project is independent of Parsec/Unity and the iPadOS client maintainers.
+```sh
+python3 scripts/verify_archive.py
+python3 -m unittest discover -s tests
+```
 
-Use `python3 apps/control/desktop_app.py --background` for a panel-only launch. Opening the application launcher or choosing Show Open Parsec reveals the window.
+See [contributing](CONTRIBUTING.md) for safe reports and packaging changes.
+
+## Licenses
+
+Host and Linux application code: [MIT](LICENSE), with [upstream attribution and pinned commit](UPSTREAM.md). The unchanged iPadOS OpenParsec logo has a separate [GPL-3.0 notice](docs/LOGO-NOTICE.md) and [license](docs/LICENSE.GPL-3.0). The GTK interface contains no Swift source.
+
+This project is independent of Parsec/Unity, Lowlat and the iPadOS client maintainers. Compatibility with Parsec services is not guaranteed.
