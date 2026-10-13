@@ -16,13 +16,13 @@ This version uses Parsec services and requires a Parsec account. Use the officia
 
 The guided installer targets **Ubuntu 24.04–26.x on x86_64**, with a graphical session and systemd. GPU drivers must already provide Vulkan and a supported hardware encoder. This is experimental: the installer accepts these Ubuntu versions, but that does not establish compatibility with every GPU or desktop combination.
 
-1. Download the [0.1.0 archive](https://github.com/cottarts/Open-Parsec-for-Linux/raw/refs/heads/main/open-parsec-0.1.0-linux-x86_64.tar.gz) and [SHA256SUMS](SHA256SUMS) into the same directory.
+1. Download the [0.1.1 archive](https://github.com/cottarts/Open-Parsec-for-Linux/releases/download/v0.1.1/open-parsec-0.1.1-linux-x86_64.tar.gz) and [SHA256SUMS](SHA256SUMS) into the same directory.
 2. Verify, extract and check the platform:
 
 ```sh
 sha256sum -c SHA256SUMS
-tar -xzf open-parsec-0.1.0-linux-x86_64.tar.gz
-cd open-parsec-0.1.0
+tar -xzf open-parsec-0.1.1-linux-x86_64.tar.gz
+cd open-parsec-0.1.1
 ./install.sh --check
 ```
 
@@ -36,7 +36,7 @@ See [installation and troubleshooting](docs/INSTALL.md) before installation, and
 
 Closing the interface keeps its indicator active. Quitting the interface leaves the host service running. Use the launcher or the indicator's **Show Open Parsec** action to reopen the window.
 
-**This repository distributes an archive.** The application source, bundled binaries and upstream documentation are inside it; cloning this repository alone does not create an application source checkout. After extracting, run these commands from `open-parsec-0.1.0`:
+**This repository distributes an archive.** The application source, bundled binaries and upstream documentation are inside it; cloning this repository alone does not create an application source checkout. After extracting, run these commands from `open-parsec-0.1.1`:
 
 ```sh
 python3 apps/control/desktop_app.py
@@ -53,6 +53,8 @@ python3 -m unittest discover -s tests
 ```
 
 See [contributing](CONTRIBUTING.md) for safe reports and packaging changes.
+
+See [0.1.1 changes and validation](CHANGELOG.md) and [Linux client decoder compatibility](docs/CLIENT-COMPATIBILITY.md).
 
 ## Licenses
 
